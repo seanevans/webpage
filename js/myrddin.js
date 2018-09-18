@@ -49,6 +49,7 @@ function create() {
 
 };
 
+var lastclick = [0,0];
 // executed on every frame (60 times per second)
 function update() {
 
@@ -56,15 +57,21 @@ function update() {
    //  only move when you click
     if (game.input.activePointer.isDown)
     {
-        //  400 is the speed it will move towards the mouse
+        //Send the player in the right direction
+        lastclick = [game.input.activePointer.x, game.input.activePointer.y];
+        player.setVelocityX(lastclick[0] - player.x);
+        player.setVelocityY(lastclick[1] - player.y);
 
-        //player.setVelocityX(100);
-        player.x = (game.input.activePointer.x);
-        player.y = (game.input.activePointer.y);
-        //player.y = 200;
+        //player.x = (game.input.activePointer.x);
+        //player.y = (game.input.activePointer.y);
+
     }
     else
     {
-        player.setVelocityX(0);
+        if (player.x == lastclick[0] && player.y == lastclick[1])
+        {
+          player.setVelocity(0, 0);
+        }
+        //player.setVelocityX(0);
     }
 };
