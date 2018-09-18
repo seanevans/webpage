@@ -50,28 +50,34 @@ function create() {
 };
 
 var lastclick = [0,0];
+var radius = 1;
 // executed on every frame (60 times per second)
 function update() {
 
 
    //  only move when you click
-    if (game.input.activePointer.isDown)
-    {
-        //Send the player in the right direction
-        lastclick = [game.input.activePointer.x, game.input.activePointer.y];
-        player.setVelocityX(lastclick[0] - player.x);
-        player.setVelocityY(lastclick[1] - player.y);
+  if (game.input.activePointer.isDown)
+  {
+      //Send the player in the right direction
+      lastclick = [game.input.activePointer.x, game.input.activePointer.y];
+      player.setVelocityX(lastclick[0] - player.x);
+      player.setVelocityY(lastclick[1] - player.y);
 
-        //player.x = (game.input.activePointer.x);
-        //player.y = (game.input.activePointer.y);
 
-    }
-    else
+
+      //player.x = (game.input.activePointer.x);
+      //player.y = (game.input.activePointer.y);
+
+  }
+  else
+  {
+    // Check if point is inside a circle with static radium
+    var x = (player.x - lastclick[0])^2 + (player.y - lastclick[1])^2
+    var rad = radius^2;
+
+    if (Math.abs(x) < rad)
     {
-        if (player.x == lastclick[0] && player.y == lastclick[1])
-        {
-          player.setVelocity(0, 0);
-        }
-        //player.setVelocityX(0);
+        player.setVelocity(0, 0);
     }
+  }
 };
