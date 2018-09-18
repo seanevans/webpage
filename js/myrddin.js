@@ -51,6 +51,8 @@ function create() {
 
 var lastclick = [0,0];
 var radius = 1;
+var speed = 20;
+
 // executed on every frame (60 times per second)
 function update() {
 
@@ -58,15 +60,26 @@ function update() {
    //  only move when you click
   if (game.input.activePointer.isDown)
   {
-      //Send the player in the right direction
-      lastclick = [game.input.activePointer.x, game.input.activePointer.y];
-      player.setVelocityX(lastclick[0] - player.x);
-      player.setVelocityY(lastclick[1] - player.y);
+    //Send the player in the right direction
+    lastclick = [game.input.activePointer.x, game.input.activePointer.y];
+
+    distance_x = lastclick[0] - player.x;
+    distance_y = lastclick[1] - player.y;
+
+    // normalize the speed.
+    speed_multiplier = speed / Math.sqrt((Math.pow(distance_x, 2)) + Math.pow(distance_y, 2));
+
+    player.setVelocityX(distance_x * speed_multiplier);
+    player.setVelocityY(distance_y * speed_multiplier);
+
+    //Speed [x, y] must keep the correct rise over run ratio
+    //[500, 0] x ? = [20, 0]
+    //[250, 250] x ? = [10, 10]
+    //
 
 
-
-      //player.x = (game.input.activePointer.x);
-      //player.y = (game.input.activePointer.y);
+    //player.x = (game.input.activePointer.x);
+    //player.y = (game.input.activePointer.y);
 
   }
   else
